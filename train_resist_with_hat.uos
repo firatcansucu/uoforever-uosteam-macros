@@ -1,0 +1,13 @@
+if not @findobject 'training'
+  headmsg 'Target the person who is training resist'
+  promptalias 'training'
+endif
+if  mana <= 39
+  useskill 'meditation'
+  while mana < maxmana
+  endwhile
+else
+  cast 'mana vampire' 'training'
+  pause 1000
+endif
+

@@ -1,0 +1,224 @@
+
+clickobject 'sign'
+@clearignorelist
+@clearlist 'SignTypes'
+if not listexists 'SignTypes'
+@createlist 'SignTypes'
+endif
+@pushlist! 'SignTypes' 0xba4
+@pushlist! 'SignTypes' 0xba6
+@pushlist! 'SignTypes' 0xba8
+@pushlist! 'SignTypes' 0xbaa
+@pushlist! 'SignTypes' 0xbac
+@pushlist! 'SignTypes' 0xbae
+@pushlist! 'SignTypes' 0xbb0
+@pushlist! 'SignTypes' 0xbb2
+@pushlist! 'SignTypes' 0xbb4
+@pushlist! 'SignTypes' 0xbb6
+@pushlist! 'SignTypes' 0xbb8
+@pushlist! 'SignTypes' 0xbba
+@pushlist! 'SignTypes' 0xbbc
+@pushlist! 'SignTypes' 0xbbe
+@pushlist! 'SignTypes' 0xbbe
+@pushlist! 'SignTypes' 0xbc2
+@pushlist! 'SignTypes' 0xbc4
+@pushlist! 'SignTypes' 0xbc6
+@pushlist! 'SignTypes' 0xbc8
+@pushlist! 'SignTypes' 0xbca
+@pushlist! 'SignTypes' 0xbcc
+@pushlist! 'SignTypes' 0xbce
+@pushlist! 'SignTypes' 0xbd0
+@pushlist! 'SignTypes' 0xbd2
+@pushlist! 'SignTypes' 0xbd4
+@pushlist! 'SignTypes' 0xbd6
+@pushlist! 'SignTypes' 0xbd8
+@pushlist! 'SignTypes' 0xbda
+@pushlist! 'SignTypes' 0xbdc
+@pushlist! 'SignTypes' 0xbde
+@pushlist! 'SignTypes' 0xbe0
+@pushlist! 'SignTypes' 0xbe2
+@pushlist! 'SignTypes' 0xbe4
+@pushlist! 'SignTypes' 0xbdc
+@pushlist! 'SignTypes' 0xbe8
+@pushlist! 'SignTypes' 0xbea
+@pushlist! 'SignTypes' 0xbec
+@pushlist! 'SignTypes' 0xbee
+@pushlist! 'SignTypes' 0xbf0
+@pushlist! 'SignTypes' 0xbf2
+@pushlist! 'SignTypes' 0xbf4
+@pushlist! 'SignTypes' 0xbf6
+@pushlist! 'SignTypes' 0xbf8
+@pushlist! 'SignTypes' 0xbfa
+@pushlist! 'SignTypes' 0xbfc
+@pushlist! 'SignTypes' 0xbfe
+@pushlist! 'SignTypes' 0xc00
+@pushlist! 'SignTypes' 0xc02
+@pushlist! 'SignTypes' 0xc04
+@pushlist! 'SignTypes' 0xc06
+@pushlist! 'SignTypes' 0xc08
+@pushlist! 'SignTypes' 0xc0a
+@pushlist! 'SignTypes' 0xc0c
+@pushlist! 'SignTypes' 0xc0e
+@pushlist! 'SignTypes' 0xc44
+@pushlist! 'SignTypes' 0xb95
+while not @injournal 'The world has ended!' system
+for 0 to 'SignTypes'
+if @findtype 'SignTypes[]' 'any' 'ground' 'any' 16
+if @setalias 'sign' 'found'
+@clearjournal system
+clickobject 'sign'
+waitforjournal 'This house is' 3000 'system'
+endif
+if @injournal 'This house is in danger of collapsing.' system
+if @injournal 'This house is greatly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is fairly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is somewhat worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is slightly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is ageless.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+else
+headmsg '***IN DANGER***' '33'
+headmsg '***IN DANGER***' '33' 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+endif
+elseif @injournal 'This house is greatly worn.' system
+if @injournal 'This house is in danger of collapsing.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is fairly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is somewhat worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is slightly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is ageless.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+else
+headmsg '***GREATLY WORN***' '45'
+headmsg '***GREATLY WORN***' '45' 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+endif
+elseif @injournal 'This house is fairly worn.' system
+if @injournal 'This house is greatly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is in danger of collapsing.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is somewhat worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is slightly worn.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+elseif @injournal 'This house is ageless.' system
+headmsg '***Ambiguous - Check Manually***' 96 'self'
+headmsg '***Ambiguous - Check Manually***' 96 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+else
+headmsg '***FAIRLY WORN***' '50'
+headmsg '***FAIRLY WORN***' '50' 'sign'
+if @inrange 'sign' 4
+@ignoreobject 'found'
+endif
+break
+endif
+elseif @injournal 'This house is somewhat worn.' system
+headmsg '***Somewhat Worn***' '70' 'sign'
+@ignoreobject 'found'
+break
+elseif @injournal 'This house is slightly worn.' system
+headmsg '***Slightly Worn***' '70' 'sign'
+@ignoreobject 'found'
+break
+elseif @injournal 'This house is like new.' system
+headmsg '***Like New***' '70' 'sign'
+@ignoreobject 'found'
+break
+elseif @injournal 'This house is ageless.' system
+headmsg '***Ageless***' '70' 'sign'
+@ignoreobject 'found'
+break
+endif
+endif
+endfor
+pause 5
+endwhile

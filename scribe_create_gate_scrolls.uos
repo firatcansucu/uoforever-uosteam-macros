@@ -1,0 +1,69 @@
+//you will need two containers one with regs,scrolls,pens one empty
+if not @findobject 'restock1'
+  promptalias 'restock1'
+endif
+if not @findobject 'finished recall1'
+  promptalias 'finished recall1'
+endif
+if @counttype 0x1f4c 'any' 'backpack' >= 100
+  if @movetype 0x1f4c 'backpack' 'finished recall1'
+    pause 1500
+  endif
+endif
+if @counttype 0xfbf 'any' 'backpack' == 0
+  if @movetype 0xfbf 'restock1' 'backpack' 0 0 0 'any' 1
+    pause 1500
+  else
+    sysmsg 'Out of pens!' 25
+    @canceltarget
+    stop
+  endif
+endif
+if @counttype 0xef3 'any' 'backpack' == 0
+  if @movetype 0xef3 'restock1' 'backpack' 0 0 0 'any' 100
+    pause 1500
+  else
+    sysmsg 'Out of scrolls!' 25
+    @canceltarget
+    stop
+  endif
+endif
+if @counttype 0xf8c 'any' 'backpack' == 0
+  if @movetype 0xf8c 'restock1' 'backpack' 0 0 0 'any' 100
+    pause 1500
+  else
+    sysmsg 'Out of sulf ash' 25
+    @canceltarget
+    stop
+  endif
+endif
+if @counttype 0xf86 'any' 'backpack' == 0
+  if @movetype 0xf86 'restock1' 'backpack' 0 0 0 'any' 100
+    pause 1500
+  else
+    sysmsg 'Out of mandrake!' 25
+    @canceltarget
+    stop
+  endif
+endif
+if @counttype 0xf7a 'any' 'backpack' == 0
+  if @movetype 0xf7a 'restock1' 'backpack' 0 0 0 'any' 100
+    pause 1500
+  else
+    sysmsg 'Out of black pearl!' 25
+    @canceltarget
+    stop
+  endif
+endif
+if @usetype '0xfbf' 'any' 'backpack'
+  waitforgump 0x38920abd 3000
+  replygump 0x38920abd 43
+  waitforgump 0x38920abd 3000
+  replygump 0x38920abd 23
+  waitforgump 0x38920abd 3000
+endif
+if mana < 41
+  useskill 'meditation'
+  while not mana == maxmana
+  endwhile
+endif

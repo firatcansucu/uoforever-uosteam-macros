@@ -1,0 +1,5 @@
+if @injournal 'type in a price' 'system'
+  promptmsg '500'
+  clearjournal
+endif
+pause 100

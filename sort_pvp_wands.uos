@@ -1,0 +1,62 @@
+    ///////////////////////
+//SET CONTAINERS
+///////////////////////
+headmsg 'Source Container'
+promptalias 'source'
+pause 500
+headmsg 'Heals Container'
+promptalias 'heals'
+pause 500
+headmsg 'Drains Container'
+promptalias 'drains'
+pause 500
+headmsg 'Lightning Container'
+promptalias 'lightnings'
+pause 500
+headmsg 'ITEMID Container'
+promptalias 'itemid'
+pause 500
+headmsg 'Trash Container'
+promptalias 'trash'
+////////////////////
+//DEFINE LIST
+////////////////////
+if not listexists 'wands'
+  createlist 'wands'
+endif
+@clearlist 'wands'
+@pushlist 'wands' '0xdf4'
+@pushlist 'wands' '0xdf5'
+@pushlist 'wands' '0xdf3'
+@pushlist 'wands' '0xdf2'
+//////////////////////
+//FIND WANDS
+//////////////////////
+for 0 to wands
+  while findtype wands[] 'any' 'source' 'any' 0
+    clearjournal
+    clickobject found
+    pause 1000
+    //HEALS
+    if injournal 'greater' System
+      moveitemoffset 'found' heals
+      pause 500
+      //DRAINS
+    elseif injournal 'drain' System
+      moveitemoffset 'found' drains
+      pause 500
+	  //ITEMID
+    elseif injournal 'identification' System
+      moveitemoffset 'found' itemid
+      pause 500
+      //LIGHTNING
+    elseif injournal 'lightning' System
+      moveitemoffset 'found' lightnings
+      pause 500
+      //TRASH
+    else
+      moveitemoffset 'found' trash
+      pause 500
+    endif
+  endwhile
+endfor

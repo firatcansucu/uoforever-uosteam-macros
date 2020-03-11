@@ -1,0 +1,188 @@
+//MagicItem/Slayer Finder and CounterV1
+//Init
+clearjournal
+clearignorelist
+@removelist wep_type
+@createlist wep_type
+@removelist slayer1
+@createlist slayer1
+@removelist tactic_type
+@createlist tactic_type
+@removelist move_weapon
+@createlist move_weapon
+@removelist weapontypes
+@createlist weapontypes
+@unsetalias countchest
+@unsetalias destinationbag
+@unsetalias repondbag
+//Setup
+//README/////////////////////////////////////////////////
+//Change what kind of slayer you are looking for below.
+pushlist wep_type 'Vanquishing'
+// pushlist tactic_type 'Surpassingly'
+// pushlist tactic_type 'Eminently'
+pushlist tactic_type 'Exceedingly'
+pushlist tactic_type 'Supremely'
+pushlist slayer1 'repond'
+//change true to false to not move slayers found to backpack
+pushlist move_weapon 'true'
+/////////////////////////////////////////////////////////
+///chest to be counted
+while not @findobject countchest
+  headmsg 'Select the chest to look for weapons in...' 23
+  promptalias countchest
+endwhile
+if @inlist move_weapon 'true'
+  while not @findobject destinationbag
+    headmsg 'Select destination bag or press ESC to select backpack...' 20
+    promptalias destinationbag
+  endwhile
+  while not @findobject repondbag
+    headmsg 'Select destination bag or press ESC to select backpack...' 20
+    promptalias repondbag
+  endwhile
+endif
+if @useobject countchest
+  waitforcontents countchest 2000
+  while @findtype 0xe76 any countchest
+    @useobject found
+    waitforcontents found 2000
+    ignoreobject found
+  endwhile
+  while @findtype 0xe75 any countchest
+    @useobject found
+    waitforcontents found 2000
+    ignoreobject found
+  endwhile
+else
+  headmsg 'Something went wrong...' 55
+endif
+////Weapontype list
+//Fencing
+@pushlist weapontypes 0xf62  //Spear
+@pushlist weapontypes 0x1403 //Short Spear
+@pushlist weapontypes 0xe87  //Pitchfork
+@pushlist weapontypes 0x1405 //Warfork
+@pushlist weapontypes 0x1401 //Kryss
+@pushlist weapontypes 0xf52  //Dagger
+//Macing
+@pushlist weapontypes 0x13b0 //War axe
+@pushlist weapontypes 0xdf0  //Black Staff
+@pushlist weapontypes 0x1439 //War Hammer
+@pushlist weapontypes 0x1407 //War Mace
+@pushlist weapontypes 0xe89  //Quarter Staff
+@pushlist weapontypes 0x143d //Hammer Pick
+@pushlist weapontypes 0x13b4 //Club
+@pushlist weapontypes 0xe81  //Shepherds Crook
+@pushlist weapontypes 0x13f8 //Gnarled Staff
+@pushlist weapontypes 0xf5c  //Mace
+@pushlist weapontypes 0x143b //Maul
+//Swords
+@pushlist weapontypes 0x13b9 //Viking Sword
+@pushlist weapontypes 0xf61  //Longsword
+@pushlist weapontypes 0x1441 //Cutlass
+@pushlist weapontypes 0x13b6 //Scimitar
+@pushlist weapontypes 0xec4  //Skinning Knife
+@pushlist weapontypes 0x13f6 //Butcher Knife
+@pushlist weapontypes 0xf5e  //Broadsword
+@pushlist weapontypes 0x13ff //Katana
+@pushlist weapontypes 0xec3  //Cleaver
+//Axes
+@pushlist weapontypes 0xf43 //Hatchet
+@pushlist weapontypes 0xf45 //Executioner's Axe
+@pushlist weapontypes 0xf4d //Bardiche
+@pushlist weapontypes 0xf4b  //Double Axe
+@pushlist weapontypes 0x143e //Halberd
+@pushlist weapontypes 0x13fb //Large Battle Axe
+@pushlist weapontypes 0x1443 //Two Handed Axe
+@pushlist weapontypes 0xf47  //Battle Axe
+@pushlist weapontypes 0xf49  //Axe
+@pushlist weapontypes 0xe85  //Pickaxe
+@pushlist weapontypes 0xe86  //Pickaxe
+//Bows
+@pushlist weapontypes 0x13fd //HeavyXbow
+@pushlist weapontypes 0xf50  //Xbow
+@pushlist weapontypes 0x13b2 //bow
+//
+for 0 to weapontypes
+  removelist cntnumber
+  if not listexists cntnumber
+    createlist cntnumber
+  endif
+  pushlist cntnumber 1
+  pushlist cntnumber 2
+  pushlist cntnumber 3
+  pushlist cntnumber 4
+  pushlist cntnumber 5
+  pushlist cntnumber 6
+  pushlist cntnumber 7
+  pushlist cntnumber 8
+  pushlist cntnumber 9
+  pushlist cntnumber 10
+  pushlist cntnumber 11
+  pushlist cntnumber 12
+  pushlist cntnumber 13
+  pushlist cntnumber 14
+  pushlist cntnumber 15
+  pushlist cntnumber 16
+  pushlist cntnumber 17
+  pushlist cntnumber 18
+  pushlist cntnumber 19
+  pushlist cntnumber 20
+  pushlist cntnumber 21
+  pushlist cntnumber 22
+  pushlist cntnumber 23
+  pushlist cntnumber 24
+  pushlist cntnumber 25
+  pushlist cntnumber 26
+  pushlist cntnumber 27
+  pushlist cntnumber 28
+  pushlist cntnumber 29
+  pushlist cntnumber 30
+  while @findtype 'weapontypes[]' any countchest
+    clickobject found
+    //tweak below for speed and lag
+    pause 500
+    //
+    if @injournal 'wep_type[0]' system
+      if @injournal 'tactic_type[0]' system or @injournal 'tactic_type[1]' system
+        headmsg cntnumber[0] 23
+        sysmsg cntnumber[0] 23
+        poplist cntnumber front
+        if @inlist move_weapon true
+          sysmsg 'Moving weapon to backpack...' 23
+          if moveitem found destinationbag
+            pause 1000
+          endif
+        elseif @inlist move_weapon false
+          //sysmsg 'Not moving slayer..' 23
+        endif
+        //ignoreobject found
+        if @list cntnumber == 0
+          headmsg 'maxxed at 30'
+          stop
+        endif
+      endif
+	elseif @injournal 'slayer1[0]' system
+	    headmsg cntnumber[0] 23
+        sysmsg cntnumber[0] 23
+        poplist cntnumber front
+        if @inlist move_weapon true
+          sysmsg 'Moving weapon to backpack...' 23
+          if moveitem found repondbag
+            pause 1000
+          endif
+        elseif @inlist move_weapon false
+          //sysmsg 'Not moving slayer..' 23
+        endif
+        //ignoreobject found
+        if @list cntnumber == 0
+          headmsg 'maxxed at 30'
+          stop
+        endif
+    endif
+    ignoreobject found
+    clearjournal
+  endwhile
+endfor
+headmsg 'done'

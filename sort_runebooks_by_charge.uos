@@ -1,0 +1,40 @@
+///////////////////////
+//SET CONTAINERS
+///////////////////////
+headmsg 'Source Container'
+promptalias 'source'
+pause 500
+headmsg 'highcharge Container'
+promptalias 'highcharge'
+pause 500
+
+headmsg 'rest Container'
+promptalias 'rest'
+pause 500
+
+////////////////////
+//DEFINE LIST
+////////////////////
+if not listexists 'runebooks'
+  createlist 'runebooks'
+endif
+@clearlist 'runebooks'
+@pushlist 'runebooks' '0x22c5'
+
+//////////////////////
+//FIND WANDS
+//////////////////////
+for 0 to runebooks
+  while findtype runebooks[] 'any' 'source' 'any' 0
+    clearjournal
+    clickobject found
+    pause 1000
+	
+	if injournal '10' System
+		moveitemoffset 'found' rest
+		pause 500
+	else
+		moveitemoffset 'found' highcharge
+	endif
+  endwhile
+endfor

@@ -1,0 +1,382 @@
+//MagicItem/Slayer Finder and CounterV1
+//Init
+clearjournal
+clearignorelist
+@removelist vanq_type
+@createlist vanq_type
+@removelist power_type
+@createlist power_type
+@removelist power_tactic
+@createlist power_tactic
+@removelist slayer_type
+@createlist slayer_type
+@removelist vanq_tactic
+@createlist vanq_tactic
+@removelist move_weapon
+@createlist move_weapon
+@removelist weapontypes
+@createlist weapontypes
+@unsetalias countchest
+
+@unsetalias good_vanq_bag
+@unsetalias slayerbag
+@unsetalias good_power_bag
+@unsetalias quest_vanq
+//Setup
+//README/////////////////////////////////////////////////
+//Change what kind of slayer you are looking for below.
+pushlist vanq_type 'Vanquishing'
+// pushlist vanq_tactic 'Surpassingly'
+// pushlist vanq_tactic 'Eminently'
+pushlist vanq_tactic 'Exceedingly'
+pushlist vanq_tactic 'Supremely'
+pushlist slayer_type 'repond'
+pushlist slayer_type 'Ogre Trashing'
+pushlist slayer_type 'Orc Slaying'
+pushlist slayer_type 'Troll Slaughter'
+pushlist slayer_type 'Silver'
+pushlist slayer_type 'Fey'
+pushlist slayer_type 'Elemental Ban'
+pushlist slayer_type 'Blood Drinking'
+pushlist slayer_type 'Earth Shatter'
+pushlist slayer_type 'Elemental Health'
+pushlist slayer_type 'Flame Dousing'
+pushlist slayer_type 'Summer Wind'
+pushlist slayer_type 'Vacuum'
+pushlist slayer_type 'Water Dissipation'
+pushlist slayer_type 'Exorcism'
+pushlist slayer_type 'Daemon Dismissal'
+pushlist slayer_type 'Gargoyles Foe'
+pushlist slayer_type 'Balron Damnation'
+pushlist slayer_type 'Arachnid Doom'
+pushlist slayer_type 'Scorpions Bane'
+pushlist slayer_type 'Spiders Death'
+pushlist slayer_type 'Terathan'
+pushlist slayer_type 'Reptilian Death'
+pushlist slayer_type 'Dragon Slaying'
+pushlist slayer_type 'Lizardman Slaughter'
+pushlist slayer_type 'Ophidian'
+pushlist slayer_type 'Snakes Bane'
+
+pushlist power_type 'power'
+pushlist power_tactic 'Supremely'
+//change true to false to not move slayers found to backpack
+pushlist move_weapon 'true'
+/////////////////////////////////////////////////////////
+///chest to be counted
+while not @findobject countchest
+  headmsg 'Select the chest to look for weapons in...' 23
+  promptalias countchest
+endwhile
+if @inlist move_weapon 'true'
+  while not @findobject good_vanq_bag
+    headmsg 'Select vanq+25 vanq+20 bag' 20
+    promptalias good_vanq_bag
+  endwhile
+  while not @findobject slayerbag
+    headmsg 'Select slayer power+ bag' 20
+    promptalias slayerbag
+  endwhile
+  while not @findobject good_power_bag
+    headmsg 'Select power+25 bag' 20
+    promptalias good_power_bag
+  endwhile
+  while not @findobject quest_vanq
+    headmsg 'Select quest vanq bag' 20
+    promptalias quest_vanq
+  endwhile
+endif
+if @useobject countchest
+  waitforcontents countchest 2000
+  while @findtype 0xe76 any countchest
+    @useobject found
+    waitforcontents found 2000
+    ignoreobject found
+  endwhile
+  while @findtype 0xe75 any countchest
+    @useobject found
+    waitforcontents found 2000
+    ignoreobject found
+  endwhile
+else
+  headmsg 'Something went wrong...' 55
+endif
+////Weapontype list
+//Fencing
+@pushlist weapontypes 0xf62  //Spear
+@pushlist weapontypes 0x1403 //Short Spear
+@pushlist weapontypes 0xe87  //Pitchfork
+@pushlist weapontypes 0x1405 //Warfork
+@pushlist weapontypes 0x1401 //Kryss
+@pushlist weapontypes 0xf52  //Dagger
+//Macing
+@pushlist weapontypes 0x13b0 //War axe
+@pushlist weapontypes 0xdf0  //Black Staff
+@pushlist weapontypes 0x1439 //War Hammer
+@pushlist weapontypes 0x1407 //War Mace
+@pushlist weapontypes 0xe89  //Quarter Staff
+@pushlist weapontypes 0x143d //Hammer Pick
+@pushlist weapontypes 0x13b4 //Club
+@pushlist weapontypes 0xe81  //Shepherds Crook
+@pushlist weapontypes 0x13f8 //Gnarled Staff
+@pushlist weapontypes 0xf5c  //Mace
+@pushlist weapontypes 0x143b //Maul
+//Swords
+@pushlist weapontypes 0x13b9 //Viking Sword
+@pushlist weapontypes 0xf61  //Longsword
+@pushlist weapontypes 0x1441 //Cutlass
+@pushlist weapontypes 0x13b6 //Scimitar
+@pushlist weapontypes 0xec4  //Skinning Knife
+@pushlist weapontypes 0x13f6 //Butcher Knife
+@pushlist weapontypes 0xf5e  //Broadsword
+@pushlist weapontypes 0x13ff //Katana
+@pushlist weapontypes 0xec3  //Cleaver
+//Axes
+@pushlist weapontypes 0xf43 //Hatchet
+@pushlist weapontypes 0xf45 //Executioner's Axe
+@pushlist weapontypes 0xf4d //Bardiche
+@pushlist weapontypes 0xf4b  //Double Axe
+@pushlist weapontypes 0x143e //Halberd
+@pushlist weapontypes 0x13fb //Large Battle Axe
+@pushlist weapontypes 0x1443 //Two Handed Axe
+@pushlist weapontypes 0xf47  //Battle Axe
+@pushlist weapontypes 0xf49  //Axe
+@pushlist weapontypes 0xe85  //Pickaxe
+@pushlist weapontypes 0xe86  //Pickaxe
+//Bows
+@pushlist weapontypes 0x13fd //HeavyXbow
+@pushlist weapontypes 0xf50  //Xbow
+@pushlist weapontypes 0x13b2 //bow
+//
+for 0 to weapontypes
+  removelist cntnumber
+  if not listexists cntnumber
+    createlist cntnumber
+  endif
+  pushlist cntnumber 1
+  pushlist cntnumber 2
+  pushlist cntnumber 3
+  pushlist cntnumber 4
+  pushlist cntnumber 5
+  pushlist cntnumber 6
+  pushlist cntnumber 7
+  pushlist cntnumber 8
+  pushlist cntnumber 9
+  pushlist cntnumber 10
+  pushlist cntnumber 11
+  pushlist cntnumber 12
+  pushlist cntnumber 13
+  pushlist cntnumber 14
+  pushlist cntnumber 15
+  pushlist cntnumber 16
+  pushlist cntnumber 17
+  pushlist cntnumber 18
+  pushlist cntnumber 19
+  pushlist cntnumber 20
+  pushlist cntnumber 21
+  pushlist cntnumber 22
+  pushlist cntnumber 23
+  pushlist cntnumber 24
+  pushlist cntnumber 25
+  pushlist cntnumber 26
+  pushlist cntnumber 27
+  pushlist cntnumber 28
+  pushlist cntnumber 29
+  pushlist cntnumber 30
+  pushlist cntnumber 31
+  pushlist cntnumber 32
+  pushlist cntnumber 33
+  pushlist cntnumber 34
+  pushlist cntnumber 35
+  pushlist cntnumber 36
+  pushlist cntnumber 37
+  pushlist cntnumber 38
+  pushlist cntnumber 39
+  pushlist cntnumber 40
+  pushlist cntnumber 41
+  pushlist cntnumber 42
+  pushlist cntnumber 43
+  pushlist cntnumber 44
+  pushlist cntnumber 45
+  pushlist cntnumber 46
+  pushlist cntnumber 47
+  pushlist cntnumber 48
+  pushlist cntnumber 49
+  pushlist cntnumber 50
+  pushlist cntnumber 51
+  pushlist cntnumber 52
+  pushlist cntnumber 53
+  pushlist cntnumber 54
+  pushlist cntnumber 55
+  pushlist cntnumber 56
+  pushlist cntnumber 57
+  pushlist cntnumber 58
+  pushlist cntnumber 59
+  pushlist cntnumber 50
+  pushlist cntnumber 61
+  pushlist cntnumber 62
+  pushlist cntnumber 63
+  pushlist cntnumber 64
+  pushlist cntnumber 65
+  pushlist cntnumber 66
+  pushlist cntnumber 67
+  pushlist cntnumber 68
+  pushlist cntnumber 69
+  pushlist cntnumber 70
+  pushlist cntnumber 71
+  pushlist cntnumber 72
+  pushlist cntnumber 73
+  pushlist cntnumber 74
+  pushlist cntnumber 75
+  pushlist cntnumber 76
+  pushlist cntnumber 77
+  pushlist cntnumber 78
+  pushlist cntnumber 79
+  pushlist cntnumber 80
+  pushlist cntnumber 81
+  pushlist cntnumber 82
+  pushlist cntnumber 83
+  pushlist cntnumber 84
+  pushlist cntnumber 85
+  pushlist cntnumber 86
+  pushlist cntnumber 87
+  pushlist cntnumber 88
+  pushlist cntnumber 89
+  pushlist cntnumber 90
+  pushlist cntnumber 91
+  pushlist cntnumber 92
+  pushlist cntnumber 93
+  pushlist cntnumber 94
+  pushlist cntnumber 95
+  pushlist cntnumber 96
+  pushlist cntnumber 97
+  pushlist cntnumber 98
+  pushlist cntnumber 99
+  pushlist cntnumber 100
+  pushlist cntnumber 101
+  pushlist cntnumber 102
+  pushlist cntnumber 103
+  pushlist cntnumber 104
+  pushlist cntnumber 105
+  pushlist cntnumber 106
+  pushlist cntnumber 107
+  pushlist cntnumber 108
+  pushlist cntnumber 109
+  pushlist cntnumber 110
+  pushlist cntnumber 111
+  pushlist cntnumber 112
+  pushlist cntnumber 113
+  pushlist cntnumber 114
+  pushlist cntnumber 115
+  pushlist cntnumber 116
+  pushlist cntnumber 117
+  pushlist cntnumber 118
+  pushlist cntnumber 119
+  pushlist cntnumber 120
+  pushlist cntnumber 121
+  pushlist cntnumber 122
+  pushlist cntnumber 123
+  pushlist cntnumber 124
+  pushlist cntnumber 125
+  
+  while @findtype 'weapontypes[]' any countchest
+    clickobject found
+    //tweak below for speed and lag
+    pause 500
+    //
+    if @injournal 'slayer_type[0]' system
+      if @injournal 'vanq_type[0]' system or @injournal 'power_type[0]' system 
+        headmsg cntnumber[0] 23
+        sysmsg cntnumber[0] 23
+        poplist cntnumber front
+        if @inlist move_weapon true
+          sysmsg 'Moving weapon to slayerbag...' 23
+          if moveitem found slayerbag
+            pause 1000
+          endif
+        elseif @inlist move_weapon false
+          //sysmsg 'Not moving slayer..' 23
+        endif
+        //ignoreobject found
+        if @list cntnumber == 0
+          headmsg 'maxxed at 30'
+          stop
+        endif
+	  endif
+      
+	elseif @injournal 'vanq_type[0]' system and not @injournal 'slayer_type[0]' system
+	  if @injournal 'vanq_tactic[0]' system or @injournal 'vanq_tactic[1]' system
+	    headmsg cntnumber[0] 23
+        sysmsg cntnumber[0] 23
+        poplist cntnumber front
+        if @inlist move_weapon true
+          sysmsg 'Moving weapon to good vanq bag...' 23
+          if moveitem found good_vanq_bag
+            pause 1000
+          endif
+        elseif @inlist move_weapon false
+          //sysmsg 'Not moving slayer..' 23
+        endif
+        //ignoreobject found
+        if @list cntnumber == 0
+          headmsg 'maxxed at 30'
+          stop
+        endif
+	  endif
+	
+	elseif @injournal 'power_type[0]' system and not @injournal 'slayer_type[0]' system
+	  if @injournal 'power_tactic[0]' system
+	    headmsg cntnumber[0] 23
+        sysmsg cntnumber[0] 23
+        poplist cntnumber front
+        if @inlist move_weapon true
+          sysmsg 'Moving weapon to good power bag...' 23
+          if moveitem found good_power_bag
+            pause 1000
+          endif
+        elseif @inlist move_weapon false
+          //sysmsg 'Not moving slayer..' 23
+        endif
+        //ignoreobject found
+        if @list cntnumber == 0
+          headmsg 'maxxed at 30'
+          stop
+        endif
+	  endif
+	  
+	elseif @injournal 'vanq_type[0]' system and not @injournal 'slayer_type[0]' system
+	
+	    headmsg cntnumber[0] 23
+        sysmsg cntnumber[0] 23
+        poplist cntnumber front
+        if @inlist move_weapon true
+          sysmsg 'Moving weapon to good power bag...' 23
+          if moveitem found good_power_bag
+            pause 1000
+          endif
+        elseif @inlist move_weapon false
+          //sysmsg 'Not moving slayer..' 23
+        endif
+        //ignoreobject found
+        if @list cntnumber == 0
+          headmsg 'maxxed at 30'
+          stop
+        endif
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    endif
+    ignoreobject found
+    clearjournal
+  endwhile
+endfor
+headmsg 'done'

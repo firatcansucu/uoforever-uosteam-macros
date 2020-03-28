@@ -1,0 +1,22 @@
+headmsg 'Source Container'
+promptalias 'source'
+pause 500
+headmsg 'to-bag'
+promptalias 'to-bag'
+pause 500
+
+if not listexists 'Loot'
+  createlist 'Loot'
+endif
+@clearlist 'Loot'
+
+pushlist 'Loot' '0x1940'
+
+for 0 to Loot
+	while findtype Loot[] 'any' 'source' 'any' 0
+		moveitemoffset 'found' to-bag
+		pause 500
+	endwhile
+endfor
+
+

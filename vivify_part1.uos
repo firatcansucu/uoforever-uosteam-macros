@@ -1,0 +1,39 @@
+//play this one first.
+//need to be able to carry 160 scrolls
+//need the magic rune book
+//start with no scrolls
+if mana < 20
+  useskill 'meditation'
+  while mana < 55
+    pause 1000
+  endwhile
+endif
+cast recall
+pause 2000
+target! 0x416c5f25
+pause 2000
+// turn "North"
+// walk "North"
+// walk "North"
+// pause 1500
+if not @findobject 'restock'
+  promptalias 'restock'
+endif
+pause 500
+useobject 'restock'
+pause 500
+if @counttype 0x1f6a 'any' 'backpack' < 10
+  if @movetype 0x1f6a 'restock' 'backpack' 0 0 0 'any' 150
+    pause 1500
+  else
+    sysmsg 'Out of element scrolls!' 25
+    @canceltarget
+    stop
+  endif
+endif
+pause 1000
+cast recall
+pause 2000
+target! 0x454335a6
+pause 2000
+playmacro 'Vivify restock'

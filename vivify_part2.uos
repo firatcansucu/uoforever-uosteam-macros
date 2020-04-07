@@ -1,0 +1,60 @@
+while not @findobject homerecall
+  promptalias homerecall
+endwhile
+while not @findobject macrospot
+  promptalias macrospot
+endwhile
+if @counttype 0x1f6a any backpack < 2
+  cast recall
+  pause 2000
+  target! homerecall
+  pause 1000
+  headmsg 'moving scrolls'
+  movetype 0x1f6a scrollsupplies backpack 0 0 0 any 3
+  pause 1000
+  cast recall
+  pause 2000
+  target! macrospot
+else
+  //create timers
+  if not timerexists 'Vivify'
+    createtimer 'Vivify'
+    settimer 'Vivify' 61000
+  endif
+  @clearjournal
+  //meditate if mana low
+  if mana < 10
+    useskill 'meditation'
+    while mana < 55
+      pause 1000
+    endwhile
+  endif
+  while timer 'Vivify' >= 61000
+    clearjournal
+    //meditate if < 50 mana
+    if mana < 50
+      useskill 'meditation'
+      while mana < maxmana
+      endwhile
+    endif
+    //use water elemental scrolls
+    usetype 0x1f6a
+    pause 3000
+    //release the daemon if found
+    msg 'an earth Elemental Release'
+    //reset Vivify timer if it procs
+    if @injournal 'Vivify: Activated.' 'system'
+      settimer 'Vivify' 0
+      @clearjournal
+    endif
+    if not @findtype 0xf86 'any' 'backpack'
+      break
+    endif
+  endwhile
+  usetype 0x1f6a
+  pause 3000
+  msg 'an earth Elemental Release'
+  useskill 'Meditation'
+  // 55 second pause, lower when vivify proc lowers
+  pause 61000
+endif
